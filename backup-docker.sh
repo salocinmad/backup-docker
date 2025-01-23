@@ -3,8 +3,6 @@
 backupDate=$(date "+%Y-%m-%d")
 echo $backupDate
 
-cd /root
-
 #------------------------------------------------------------------
 #Parar todos los contenedores:
 #docker stop $(docker ps -aq)
@@ -13,9 +11,7 @@ cd /root
 #docker stop $(docker ps --filter "status=running" -aq)
 #------------------------------------------------------------------
 
-tar -cvzf docker-backup-$backupDate.tar.gz /root/docker 
-
-cd /root
+tar -cvzf /backups/docker-backup-$backupDate.tar.gz /home/pi
 
 #------------------------------------------------------------------
 #Arrancar todos los contenedores:
@@ -27,16 +23,16 @@ cd /root
 
 # Copiar el archivo de respaldo al VPS destino
 echo ""
-echo "La copia del backup está en marcha..."
-scp docker-backup-$backupDate.tar.gz root@IP-destino:~/docker-backups/
+echo "La copia del backup se a realizado"
+#scp docker-backup-$backupDate.tar.gz root@IP-destino:~/docker-backups/
 
 # Esperar 1 segundo
 sleep 1
 
 # Eliminar el archivo de respaldo en el VPS origen
-rm docker-backup-$backupDate.tar.gz
+#rm docker-backup-$backupDate.tar.gz
 
 # Guardar los tres últimos archivos en la carpeta destino
-ssh root@IP-destino 'ls -t ~/docker-backups/*.tar.gz | tail -n +4 | xargs rm -f'
+#ssh root@IP-destino 'ls -t ~/docker-backups/*.tar.gz | tail -n +4 | xargs rm -f'
 
 
